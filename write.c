@@ -1,5 +1,6 @@
 #include "philo.h"
-
+#include <time.h>
+# include <stdio.h>
 
 static void write_status_debug(t_philo_status status, t_philo *philo, long elapsed)
 {
@@ -21,11 +22,11 @@ static void write_status_debug(t_philo_status status, t_philo *philo, long elaps
             printf("%-6ld %d died.\n", elapsed, philo->id);
 }
 
-void	write_status(t_philo_status status, t_philo *philo, int debug)
+void	write_status(t_philo_status status, t_philo *philo, bool debug)
 {
 	long elapsed;
 
-	elapsed = get_time(MSEC) - philo->table->start_sim;
+	elapsed = gettime(MSEC) - philo->table->start_sim;
 	if (philo->full)
 		return ;
 	s_mutex_handle(&philo->table->write_mutex, LOCK);

@@ -1,5 +1,6 @@
 #include "philo.h"
 #include <errno.h>
+#include <stdlib.h>
 
 void	*s_malloc(size_t size)
 {

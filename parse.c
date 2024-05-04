@@ -1,4 +1,7 @@
 #include "philo.h"
+#include <stdio.h>
+# include <stdlib.h>
+# include <limits.h>
 
 static long ft_atol(const char *str)
 {

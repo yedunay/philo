@@ -1,30 +1,30 @@
 #include "philo.h"
 
-void	set_bin(t_mtx *mutex, int *dest, int value)
+void	set_bool(t_mtx	*mutex, bool *dest, bool value)
 {
 	s_mutex_handle(mutex, LOCK);
 	*dest = value;
 	s_mutex_handle(mutex, UNLOCK);
 }
 
-int	get_bin(t_mtx *mutex, int *value)
+bool	get_bool(t_mtx *mutex, bool *value)
 {
-	int retval;
+	bool	ret;
 
 	s_mutex_handle(mutex, LOCK);
-	retval = *value;
+	ret = *value;
 	s_mutex_handle(mutex, UNLOCK);
-	return (retval);
+	return (ret);
 }
 
-long    get_long(t_mtx *mutex, long *value)
+long	get_long(t_mtx *mutex, long *value)
 {
-    long retval;
+	long	ret;
 
 	s_mutex_handle(mutex, LOCK);
-	retval = *value;
+	ret = *value;
 	s_mutex_handle(mutex, UNLOCK);
-	return (retval);
+	return (ret);
 }
 
 void	set_long(t_mtx *mutex, long *dest, long value)
@@ -34,7 +34,7 @@ void	set_long(t_mtx *mutex, long *dest, long value)
 	s_mutex_handle(mutex, UNLOCK);
 }
 
-int sim_finished(t_table *table)
+bool	sim_finished(t_table *table)
 {
-    return (get_bin(&table->table_mutex, &table->end_sim));
+	return (get_bool(&table->table_mutex, &table->end_sim));
 }

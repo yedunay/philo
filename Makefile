@@ -1,4 +1,4 @@
-SRCS	= philo.c dinner.c initialization.c utils.c parse.c settersngetters.c sf_func.c sync_utils.c write.c
+SRCS	= philo.c dinner.c initialization.c utils.c parse.c settersngetters.c sf_func.c sync_utils.c write.c monitor.c
 
 OBJS	= $(SRCS:.c=.o)
 
