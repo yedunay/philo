@@ -26,6 +26,7 @@ static void philo_init(t_table *table)
         philo->id = i + 1;
         philo->full = 0;
         philo->meals_counter = 0;
+        s_mutex_handle(&philo->philo_mutex, INIT);
         philo->table = table;
         assign_forks(philo, table->forks, i);
     }
@@ -40,6 +41,7 @@ void    data_init(t_table *table)
     table->all_threads_ready = 0;
     table->philos = s_malloc(sizeof(t_philo) * table->philo_num);
     s_mutex_handle(&table->table_mutex, INIT);
+    s_mutex_handle(&table->write_mutex, INIT);
     table->forks = s_malloc(sizeof(t_fork) * table->philo_num);
     while(++i < table->philo_num)
     {

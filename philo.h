@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ydunay <ydunay@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:02:53 by ydunay            #+#    #+#             */
-/*   Updated: 2024/05/03 15:23:45 by ydunay           ###   ########.fr       */
+/*   Updated: 2024/05/04 16:58:27 by ydunay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@
 #define RESET "\x1b[0m"
 #define RED "\x1b[31m"
 #define GREEN "\x1b[32m"
+#define DEBUG_MODE 0
+
+typedef enum e_status
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKE_FIRST_FORK,
+	TAKE_SECOND_FORK,
+	DIED,
+}						t_philo_status;
 
 typedef enum e_operation_code
 {
@@ -57,6 +68,7 @@ typedef struct s_philo
 	t_fork				*first_fork;
 	t_fork				*second_fork;
 	pthread_t			thread_id;
+	t_mtx				philo_mutex;
 	t_table				*table;
 }						t_philo;
 
@@ -71,6 +83,7 @@ typedef struct s_table
 	int					end_sim;
 	int					all_threads_ready;
 	t_mtx				table_mutex;
+	t_mtx				write_mutex;
 	t_fork				*forks;
 	t_philo				*philos;
 }						t_table;
@@ -88,4 +101,7 @@ long					get_long(t_mtx *mutex, long *value);
 void					set_long(t_mtx *mutex, long *dest, long value);
 int						sim_finished(t_table *table);
 void					wait_all_threads(t_table *table);
-long    get_time(t_time_code time_code);
+long					get_time(t_time_code time_code);
+void					precise_usleep(long time, t_table *table);
+void					write_status(t_philo_status status, t_philo *philo, int debug);
+void    dinner_start(t_table *table);
