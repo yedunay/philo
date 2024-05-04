@@ -10,11 +10,11 @@ long	gettime(int time_code)
 
 	if (gettimeofday(&tv, NULL))
 		error_exit("Gettimeofday failed");
-	if (MSEC == time_code)
+	if (time_code == MSEC)
 		return (tv.tv_sec * 1e3 + tv.tv_usec / 1e3);
-	else if (USEC == time_code)
+	else if (time_code == USEC)
 		return (tv.tv_sec * 1e6 + tv.tv_usec);
-	else if (SECONDS == time_code)
+	else if (time_code == SECONDS)
 		return (tv.tv_sec + tv.tv_usec / 1e6);
 	else
 		error_exit("Wrong input to gettime:"
@@ -62,6 +62,6 @@ void	clean(t_table *table)
 
 void	error_exit(const char *error)
 {
-	printf(RED"🚨 %s 🚨\n"RESET, error);
+	printf(RED"! %s !\n"RESET, error);
 	exit(EXIT_FAILURE);
 }

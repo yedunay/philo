@@ -78,9 +78,9 @@ void	dinner_start(t_table *table)
 	int			i;
 
 	i = -1;
-	if (0 == table->num_limit_meals)
+	if (table->num_limit_meals == 0)
 		return ;
-	else if (1 == table->philo_num)
+	else if (table->philo_num == 1)
 		s_thread_handle(&table->philos[0].thread_id, lone_philo,
 			&table->philos[0], CREATE);
 	else
