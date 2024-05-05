@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/05 15:39:17 by ydunay            #+#    #+#             */
+/*   Updated: 2024/05/05 15:41:20 by ydunay           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	main(int ac, char **av)
@@ -12,5 +24,6 @@ int	main(int ac, char **av)
 		clean(&table);
 	}
 	else
-		error_exit("Wrong input :\n" GREEN "Correct is ./philo 5 800 200 200 [5]");
+		error_exit("Wrong input :\n" GREEN
+			"Correct is ./philo 5 800 200 200 [5]");
 }

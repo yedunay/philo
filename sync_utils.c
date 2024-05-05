@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sync_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/05 15:39:01 by ydunay            #+#    #+#             */
+/*   Updated: 2024/05/05 15:39:02 by ydunay           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	wait_all_threads(t_table *table)
@@ -7,14 +19,13 @@ void	wait_all_threads(t_table *table)
 }
 
 void	increase_long(t_mtx *mutex, long *value)
-{	
+{
 	s_mutex_handle(mutex, LOCK);
 	(*value)++;
 	s_mutex_handle(mutex, UNLOCK);
 }
 
-bool	all_threads_running(t_mtx *mutex, long *threads,
-		long philo_num)
+bool	all_threads_running(t_mtx *mutex, long *threads, long philo_num)
 {
 	bool	ret;
 
@@ -38,4 +49,4 @@ void	de_synchronize_philos(t_philo *philo)
 		if (philo->id % 2)
 			thinking(philo, true);
 	}
-}	
+}

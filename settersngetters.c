@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   settersngetters.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/05 15:38:57 by ydunay            #+#    #+#             */
+/*   Updated: 2024/05/05 15:38:58 by ydunay           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-void	set_bool(t_mtx	*mutex, bool *dest, bool value)
+void	set_bool(t_mtx *mutex, bool *dest, bool value)
 {
 	s_mutex_handle(mutex, LOCK);
 	*dest = value;

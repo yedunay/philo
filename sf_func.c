@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sf_func.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/05 15:38:59 by ydunay            #+#    #+#             */
+/*   Updated: 2024/05/05 15:49:33 by ydunay           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 #include <errno.h>
 #include <stdlib.h>
@@ -8,7 +20,8 @@ void	*s_malloc(size_t size)
 
 	rt = malloc(size);
 	if (!rt)
-		error_exit("Malloc problems ! This time it's not about you smart creature");
+		error_exit("Malloc problems ! "
+			"This time it's not about you smart creature");
 	return (rt);
 }
 
@@ -21,11 +34,13 @@ static void	handle_mutex_error(int status, t_opcode opcode)
 	else if (status == EINVAL && opcode == INIT)
 		error_exit("The value specified by attr is invalid");
 	else if (status == EDEADLK)
-		error_exit("A deadlock would accur if the thread blocked waiting for mutex.");
+		error_exit("A deadlock would accur if "
+			"the thread blocked waiting for mutex.");
 	else if (status == EPERM)
 		error_exit("The current thread does not hold a lock on mutex");
 	else if (status == ENOMEM)
-		error_exit("The process cannot allocate enough memory to create another mutex");
+		error_exit("The process cannot allocate enough"
+			"memory to create another mutex");
 	else if (status == EBUSY)
 		error_exit("Mutex is locked");
 }
@@ -58,13 +73,14 @@ static void	handle_thread_error(int status, t_opcode opcode)
 		error_exit("The value specified by thread is not joinable\n");
 	else if (status == ESRCH)
 		error_exit("No thread could be found corresponding to that"
-					"specified by the given thread ID, thread.");
+			"specified by the given thread ID, thread.");
 	else if (status == EDEADLK)
 		error_exit("A deadlock was detected or the value of"
-					"thread specifies the calling thread.");
+			"thread specifies the calling thread.");
 }
-void    s_thread_handle(pthread_t *thread, void *(*foo)(void *), void *data,
-	t_opcode opcode)
+
+void	s_thread_handle(pthread_t *thread, void *(*foo)(void *),
+				void *data, t_opcode opcode)
 {
 	if (opcode == CREATE)
 		handle_thread_error(pthread_create(thread, NULL, foo, data), opcode);
@@ -74,5 +90,5 @@ void    s_thread_handle(pthread_t *thread, void *(*foo)(void *), void *data,
 		handle_thread_error(pthread_detach(*thread), opcode);
 	else
 		error_exit("Wrong opcode for thread_handle:"
-            " use <CREATE> <JOIN> <DETACH>");
+			" use <CREATE> <JOIN> <DETACH>");
 }

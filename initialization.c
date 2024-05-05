@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initialization.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/05 15:39:06 by ydunay            #+#    #+#             */
+/*   Updated: 2024/05/05 15:39:07 by ydunay           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-static void	assign_forks(t_philo *philo, t_fork *forks,
-		int philo_position)
+static void	assign_forks(t_philo *philo, t_fork *forks, int philo_position)
 {
 	int	philo_num;
 
@@ -12,7 +23,7 @@ static void	assign_forks(t_philo *philo, t_fork *forks,
 	{
 		philo->first_fork = &forks[philo_position];
 		philo->second_fork = &forks[(philo_position + 1) % philo_num];
-	}	
+	}
 }
 
 static void	philo_init(t_table *table)
@@ -35,7 +46,7 @@ static void	philo_init(t_table *table)
 
 void	data_init(t_table *table)
 {
-	int		i;
+	int	i;
 
 	i = -1;
 	table->end_sim = false;

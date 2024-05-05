@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/05 15:39:08 by ydunay            #+#    #+#             */
+/*   Updated: 2024/05/05 15:39:09 by ydunay           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 #include <stdio.h>
 
@@ -18,15 +30,15 @@ static bool	philo_died(t_philo *philo)
 
 void	*monitor_dinner(void *data)
 {
-	int			i;
-	t_table		*table;
+	int		i;
+	t_table	*table;
 
 	table = (t_table *)data;
 	while (!all_threads_running(&table->table_mutex,
 			&table->threads_running_num, table->philo_num))
 		;
 	while (!sim_finished(table))
-	{	
+	{
 		i = -1;
 		while (++i < table->philo_num && !sim_finished(table))
 		{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dinner.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/05 15:39:05 by ydunay            #+#    #+#             */
+/*   Updated: 2024/05/05 15:39:06 by ydunay           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	thinking(t_philo *philo, bool pre_sim)
@@ -52,12 +64,11 @@ static void	eat(t_philo *philo)
 
 static void	*dinner_sim(void *data)
 {
-	t_philo		*philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)data;
 	wait_all_threads(philo->table);
-	set_long(&philo->philo_mutex, &philo->last_meal_time,
-		gettime(MSEC));
+	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MSEC));
 	increase_long(&philo->table->table_mutex,
 		&philo->table->threads_running_num);
 	de_synchronize_philos(philo);
@@ -75,7 +86,7 @@ static void	*dinner_sim(void *data)
 
 void	dinner_start(t_table *table)
 {
-	int			i;
+	int	i;
 
 	i = -1;
 	if (table->num_limit_meals == 0)
