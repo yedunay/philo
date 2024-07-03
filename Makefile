@@ -28,4 +28,4 @@ re: fclean all
 %.o: %.c $(HEADER)
 	$(GCC) $(FLAGS) -c $<  -o $(<:.c=.o)
 
-.PHONY:	clean fclean re bonus bench bclean
+.PHONY:	clean fclean re all

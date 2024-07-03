@@ -6,7 +6,7 @@
 /*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 15:39:13 by ydunay            #+#    #+#             */
-/*   Updated: 2024/05/05 15:39:14 by ydunay           ###   ########.fr       */
+/*   Updated: 2024/07/03 15:30:34 by ydunay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,18 +94,18 @@ struct					s_table
 	t_mtx				write_mutex;
 };
 
-void					s_thread_handle(pthread_t *thread, void *(*foo)(void *),
+int						s_thread_handle(pthread_t *thread, void *(*foo)(void *),
 							void *data, t_opcode opcode);
-void					s_mutex_handle(t_mtx *mutex, t_opcode opcode);
+int						s_mutex_handle(t_mtx *mutex, t_opcode opcode);
 void					*s_malloc(size_t bytes);
 
-void					parse_input(t_table *table, char **av);
+int						parse_input(t_table *table, char **av);
 
-void					data_init(t_table *table);
+int						data_init(t_table *table);
 
-void					dinner_start(t_table *table);
+int						dinner_start(t_table *table);
 
-void					set_bool(t_mtx *mutex, bool *dest, bool value);
+int						set_bool(t_mtx *mutex, bool *dest, bool value);
 bool					get_bool(t_mtx *mutex, bool *value);
 long					get_long(t_mtx *mutex, long *value);
 void					set_long(t_mtx *mutex, long *dest, long value);
@@ -114,7 +114,7 @@ bool					sim_finished(t_table *table);
 time_t					gettime(int time_code);
 void					precise_usleep(long usec, t_table *table);
 void					clean(t_table *table);
-void					error_exit(const char *error);
+int						error_exit(const char *error);
 
 void					write_status(t_philo_status status, t_philo *philo,
 							bool debug);
@@ -127,5 +127,6 @@ void					thinking(t_philo *philo, bool pre_sim);
 void					de_synchronize_philos(t_philo *philo);
 
 void					*monitor_dinner(void *data);
+void					*lone_philo(void *arg);
 
 #endif

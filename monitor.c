@@ -6,12 +6,27 @@
 /*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 15:39:08 by ydunay            #+#    #+#             */
-/*   Updated: 2024/05/05 15:39:09 by ydunay           ###   ########.fr       */
+/*   Updated: 2024/07/03 15:20:11 by ydunay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdio.h>
+
+void	*lone_philo(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	wait_all_threads(philo->table);
+	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MSEC));
+	increase_long(&philo->table->table_mutex,
+		&philo->table->threads_running_num);
+	write_status(TAKE_FIRST_FORK, philo, DEBUG_MODE);
+	while (!sim_finished(philo->table))
+		precise_usleep(200, philo->table);
+	return (NULL);
+}
 
 static bool	philo_died(t_philo *philo)
 {

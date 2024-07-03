@@ -6,7 +6,7 @@
 /*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 15:39:05 by ydunay            #+#    #+#             */
-/*   Updated: 2024/05/05 15:39:06 by ydunay           ###   ########.fr       */
+/*   Updated: 2024/07/03 15:28:02 by ydunay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,6 @@ void	thinking(t_philo *philo, bool pre_sim)
 	if (t_think < 0)
 		t_think = 0;
 	precise_usleep(t_think * 0.42, philo->table);
-}
-
-void	*lone_philo(void *arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	wait_all_threads(philo->table);
-	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MSEC));
-	increase_long(&philo->table->table_mutex,
-		&philo->table->threads_running_num);
-	write_status(TAKE_FIRST_FORK, philo, DEBUG_MODE);
-	while (!sim_finished(philo->table))
-		precise_usleep(200, philo->table);
-	return (NULL);
 }
 
 static void	eat(t_philo *philo)
@@ -84,26 +69,44 @@ static void	*dinner_sim(void *data)
 	return (NULL);
 }
 
-void	dinner_start(t_table *table)
+static int	dinner_start2(t_table *table, int i)
+{
+	if (s_thread_handle(&table->monitor, monitor_dinner, table, CREATE) == -42)
+		return (-42);
+	table->start_sim = gettime(MSEC);
+	if (table->start_sim == -42)
+		return (-42);
+	if (set_bool(&table->table_mutex, &table->all_threads_ready, true) == -42)
+		return (-42);
+	i = -1;
+	while (++i < table->philo_num)
+		if (s_thread_handle(&table->philos[i].thread_id, NULL, NULL, JOIN)
+			== -42)
+			return (-42);
+	if (set_bool(&table->table_mutex, &table->end_sim, true) == -42)
+		return (-42);
+	if (s_thread_handle(&table->monitor, NULL, NULL, JOIN) == -42)
+		return (-42);
+	return (0);
+}
+
+int	dinner_start(t_table *table)
 {
 	int	i;
 
 	i = -1;
 	if (table->num_limit_meals == 0)
-		return ;
+		return (0);
 	else if (table->philo_num == 1)
-		s_thread_handle(&table->philos[0].thread_id, lone_philo,
-			&table->philos[0], CREATE);
+	{
+		if (s_thread_handle(&table->philos[0].thread_id, lone_philo,
+				&table->philos[0], CREATE) == -42)
+			return (-42);
+	}
 	else
 		while (++i < table->philo_num)
-			s_thread_handle(&table->philos[i].thread_id, dinner_sim,
-				&table->philos[i], CREATE);
-	s_thread_handle(&table->monitor, monitor_dinner, table, CREATE);
-	table->start_sim = gettime(MSEC);
-	set_bool(&table->table_mutex, &table->all_threads_ready, true);
-	i = -1;
-	while (++i < table->philo_num)
-		s_thread_handle(&table->philos[i].thread_id, NULL, NULL, JOIN);
-	set_bool(&table->table_mutex, &table->end_sim, true);
-	s_thread_handle(&table->monitor, NULL, NULL, JOIN);
+			if (s_thread_handle(&table->philos[i].thread_id, dinner_sim,
+					&table->philos[i], CREATE) == -42)
+				return (-42);
+	return (dinner_start2(table, i));
 }

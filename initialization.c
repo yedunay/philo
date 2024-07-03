@@ -6,7 +6,7 @@
 /*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 15:39:06 by ydunay            #+#    #+#             */
-/*   Updated: 2024/05/05 15:39:07 by ydunay           ###   ########.fr       */
+/*   Updated: 2024/07/03 14:55:54 by ydunay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	assign_forks(t_philo *philo, t_fork *forks, int philo_position)
 	}
 }
 
-static void	philo_init(t_table *table)
+static int	philo_init(t_table *table)
 {
 	int		i;
 	t_philo	*philo;
@@ -38,13 +38,15 @@ static void	philo_init(t_table *table)
 		philo->id = i + 1;
 		philo->full = false;
 		philo->meals_counter = 0;
-		s_mutex_handle(&philo->philo_mutex, INIT);
+		if (s_mutex_handle(&philo->philo_mutex, INIT) == -42)
+			return (-42);
 		philo->table = table;
 		assign_forks(philo, table->forks, i);
 	}
+	return (0);
 }
 
-void	data_init(t_table *table)
+int	data_init(t_table *table)
 {
 	int	i;
 
@@ -53,13 +55,22 @@ void	data_init(t_table *table)
 	table->all_threads_ready = false;
 	table->threads_running_num = 0;
 	table->philos = s_malloc(table->philo_num * sizeof(t_philo));
+	if (table->philos == NULL)
+		return (-42);
 	table->forks = s_malloc(table->philo_num * sizeof(t_fork));
-	s_mutex_handle(&table->write_mutex, INIT);
-	s_mutex_handle(&table->table_mutex, INIT);
+	if (table->forks == NULL)
+		return (-42);
+	if (s_mutex_handle(&table->write_mutex, INIT) == -42)
+		return (-42);
+	if (s_mutex_handle(&table->table_mutex, INIT) == -42)
+		return (-42);
 	while (++i < table->philo_num)
 	{
-		s_mutex_handle(&table->forks[i].fork, INIT);
+		if (s_mutex_handle(&table->forks[i].fork, INIT) == -42)
+			return (-42);
 		table->forks[i].fork_id = i;
 	}
-	philo_init(table);
+	if (philo_init(table) == -42)
+		return (-42);
+	return (0);
 }

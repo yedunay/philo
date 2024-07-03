@@ -6,17 +6,20 @@
 /*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 15:38:57 by ydunay            #+#    #+#             */
-/*   Updated: 2024/05/05 15:38:58 by ydunay           ###   ########.fr       */
+/*   Updated: 2024/07/03 14:25:26 by ydunay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	set_bool(t_mtx *mutex, bool *dest, bool value)
+int	set_bool(t_mtx *mutex, bool *dest, bool value)
 {
-	s_mutex_handle(mutex, LOCK);
+	if (s_mutex_handle(mutex, LOCK) == -42)
+		return (-42);
 	*dest = value;
-	s_mutex_handle(mutex, UNLOCK);
+	if (s_mutex_handle(mutex, UNLOCK) == -42)
+		return (-42);
+	return (0);
 }
 
 bool	get_bool(t_mtx *mutex, bool *value)

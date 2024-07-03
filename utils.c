@@ -6,7 +6,7 @@
 /*   By: ydunay <ydunay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 15:39:03 by ydunay            #+#    #+#             */
-/*   Updated: 2024/05/05 15:47:36 by ydunay           ###   ########.fr       */
+/*   Updated: 2024/07/03 14:52:12 by ydunay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	clean(t_table *table)
 	free(table->philos);
 }
 
-void	error_exit(const char *error)
+int	error_exit(const char *error)
 {
 	printf(RED "! %s !\n" RESET, error);
-	exit(EXIT_FAILURE);
+	return (-42);
 }
